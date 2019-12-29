@@ -12,151 +12,113 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GB_Kabalkin_CSharp_Level2.Classes;
+using System.Collections.ObjectModel;
 
 namespace GB_Kabalkin_CSharp_Level2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,IViewCompany
     {
-        private Company google;
-        private Department departmentSelected;
-        private Employee employeeSelected;
-        private Random random = new Random();
+        //private Company google;
+        //private Department departmentSelected;
+        //private Employee employeeSelected;
+        //private Random random = new Random();
+
+        Presenter p;
+        Window2StaffEditor w2 ;
+
+        #region IViewCompany
+
+        string IViewCompany.CompanyName
+        {
+            get => LableText.Text;
+            set => LableText.Text = value;
+        }
+
+        ObservableCollection<Department> IViewCompany.Departments
+        {
+             get
+            {
+               return null;
+            }
+            set
+            {
+
+                DepartamentsListBox.ItemsSource = value;
+            }
+
+        }
+
+        ObservableCollection<Employee> IViewCompany.Employees
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+
+                StafflistBox.ItemsSource = value;
+            }
+
+        }
+
+        public Department DepartmentSelected
+        {
+            get
+            {
+                return DepartamentsListBox.SelectedItem as Department;
+            }
+            set => throw new NotImplementedException();
+        }
+
+        public Employee EmployeeSelected
+        {
+            get => StafflistBox.SelectedItem as Employee;
+            set => EmployeeSelected=value;
+        }
+
+        public string TextInfo
+        {
+            get => CompanyInfoTextBox.Text;
+            set => CompanyInfoTextBox.Text = value;
+        }
+
+        public void ShowEmployeeEditWindow()
+        {
+            w2 = new Window2StaffEditor(p);
+            w2.ShowDialog();
+        }
+
+
+        #endregion
 
         public MainWindow()
         {
 
             InitializeComponent();
-            CreatingGoogle();
-            InitializeGoogle();
 
-        }
+            p = new Presenter(this);
+            p.LoadCompany();
 
-        public void CreatingGoogle()
-        {
-            Random random = new Random();
-            google = new Company("Google");
-            google.HiringStaff(random.Next(1, 5), (Position)random.Next(0, 3));
-            google.HiringStaff(random.Next(1, 5), (Position)random.Next(0, 3));
-            google.HiringStaff(random.Next(1, 5), (Position)random.Next(0, 3));
-            google.CreatingDepartaments(2);
-            // PrintText(google);
-        }
-
-        public void PrintText(Company company)
-        {
-            Console.WriteLine(company.ToString());
-
-        }
-
-        public void InitializeGoogle()
-        {
-
-            LableText.Text = google.Name;
-            CompanyInfoTextBox.Text = google.ToString();
-
-            RefreshDepartamentListBox();
-
-
-        }
-
-
-        private void DepartamentSelection(object sender, SelectionChangedEventArgs e)
-        {
-            employeeSelected = null;
-            StafflistBox.Items.Clear();
-            string departName = (sender as ListBox).SelectedItem.ToString();
-
-            foreach (Department department in google.Departments)
-            {
-                if (department.Name == departName)
-                {
-                    departmentSelected = department;
-                    RefreshStaffListBox();
-                }
-            }
-            
-        }
-
-        private void AddBtnClick(object sender, RoutedEventArgs e)
-        {
-            if (departmentSelected == null) return;
-
-            departmentSelected.AddStaff(new Employee($"Man00{Employee.ID}", random.Next(1000, 2000), Position.worker));
-            RefreshStaffListBox();
-
-        }
-
-        void RefreshDepartamentListBox()
-        {
-            DepartamentsListBox.Items.Clear();
-            foreach (var item in google.Departments)
-            {
-                DepartamentsListBox.Items.Add(item);
-            }
-
-        }
-
-        private void RefreshStaffListBox() {
-
-            StafflistBox.Items.Clear();
-            foreach (Employee employee in departmentSelected.Staff)
-            {
-                StafflistBox.Items.Add(employee);
-            }
-        }
-
-        private void EditBtnClick(object sender, RoutedEventArgs e)
-        {
-            if (StafflistBox.SelectedItem == null) return;
-            if (google.Departments==null) return;
-            new Window2StaffEditor(employeeSelected, google.Departments).ShowDialog();
-        }
-
-        private void StaffSelection(object sender, SelectionChangedEventArgs e)
-        {
-            if (departmentSelected == null) return;
-            
-            if ((sender as ListBox).SelectedItem == null) return;
-
-            string staffName = (sender as ListBox).SelectedItem.ToString();
+            DepartamentsListBox.SelectionChanged += (s, e) => p.ShowSelectedDepartament();
+            StafflistBox.SelectionChanged += (s, e) => p.ShowSelectedEmployeeInfo();
+            AddDepBtn.Click+=(s,e) => p.AddDepatrament();
+            AddStaffBtn.Click += (s, e) => p.AddEmployee();
+            DelStaffBtn.Click += (s, e) => p.DelEmployee();
+            EditStaffBtn.Click += (s, e) => p.EditEmployee();
             
 
-            foreach (Employee employee in departmentSelected.Staff)
-            {
-                if (employee.Name == staffName)
-                {
-                    employeeSelected = employee;
-                }
-            }
-
         }
 
-        private void DelBtnClick(object sender, RoutedEventArgs e)
-        {
+        
 
-            if (departmentSelected == null) return;
-            if (employeeSelected == null) return;
 
-            for (int i = 0; i < departmentSelected.Staff.Count; i++)
-            {
-                if (employeeSelected.id == departmentSelected.Staff[i].id)
-                {
-                    departmentSelected.Staff.RemoveAt(i);
-                    employeeSelected = null;
-                    RefreshStaffListBox();
-                }
+       
 
-            }
 
-        }
-
-        private void AddDepBtnClick(object sender, RoutedEventArgs e)
-        {
-            google.CreatingDepartaments(1);
-            RefreshDepartamentListBox();
-        }
     }
 }

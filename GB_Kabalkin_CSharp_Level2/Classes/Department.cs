@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +9,33 @@ namespace GB_Kabalkin_CSharp_Level2
 {
     public class Department
     {
+        #region Variables
         private string name;
         public string Name { get { return name; } }
-        private List<Employee> staff;
-        public List<Employee> Staff { get { return staff; } }
-        public static int ID;
+        private ObservableCollection<Employee> staff;
+        public ObservableCollection<Employee> Staff { get { return staff; } }
+        public static int counter;
+        public readonly int ID;
+        #endregion
 
         public Department(string name)
         {
-
+            
             this.name = name;
-            staff = new List<Employee>();
-            ID++;
-
+            staff = new ObservableCollection<Employee>();
+            this.ID = counter;
+            counter++;
+            
         }
 
-        public Department(string name,List<Employee> staff):this(name)
+        public Department(string name, ObservableCollection<Employee> staff):this(name)
         {
 
             this.staff = staff;
 
         }
 
+        #region Metods
         public void AddStaff(Employee employee)
         {
             staff.Add(employee);
@@ -54,6 +60,7 @@ namespace GB_Kabalkin_CSharp_Level2
             }
                         
         }
+        #endregion
 
         public override string ToString()
         {

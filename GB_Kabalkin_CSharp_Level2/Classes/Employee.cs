@@ -8,8 +8,9 @@ namespace GB_Kabalkin_CSharp_Level2
 {
     public class Employee
     {
-        private string name;
-        public string Name { get { return name; }set { name = value; } }
+        #region Variables
+        private string employeeName;
+        public string EmployeeName { get { return employeeName; }set { employeeName = value; } }
 
         private double salary;
         public double Salary { get { return salary; }set { salary = value; } }
@@ -21,11 +22,13 @@ namespace GB_Kabalkin_CSharp_Level2
         public Position Position { get { return position; } set { position = value; } }
 
         public static int ID;
-        public readonly int id; 
+        public readonly int id;
+        #endregion
+
 
         public Employee(string name, double salary, Position position, string departamentName = "None") {
 
-            this.name = name;
+            this.employeeName = name;
             this.salary = salary;
             this.position = position;
             this.departamentName = departamentName;
@@ -36,39 +39,39 @@ namespace GB_Kabalkin_CSharp_Level2
         public override string ToString()
         {
             
-                return $"{Name}";
+                return $"{EmployeeName}";
             
         }
 
-        public string PrintInfo(bool vertical)
+        #region Metods
+        public string PrintInfo(bool vertical=false)
         {
             if (vertical)
             {
                 if (departamentName == "None")
                 {
-
-                    return $"Name: {Name}, Salary: {Salary}$, Position: {position}";
+                    return $"Name: {EmployeeName} \nSalary: {Salary}$\nPosition: {position}";
                 }
                 else
                 {
-                    return $"Name: {Name}, Departament: {departamentName}, Salary: {Salary}$, Position: {position}";
+                    return $"Name: {EmployeeName}\nDepartament: {departamentName} \nSalary: {Salary}$ \nPosition: {position}";
                 }
+                
             }
             else {
                 if (departamentName == "None")
                 {
-
-                    return $"Name: {Name} \n Salary: {Salary}$\n Position: {position}";
+                    return $"Name: {EmployeeName}, Salary: {Salary}$, Position: {position}";
                 }
                 else
                 {
-                    return $"Name: {Name}\n Departament: {departamentName} \n Salary: {Salary}$ \n Position: {position}";
+                    return $"Name: {EmployeeName}, Departament: {departamentName}, Salary: {Salary}$, Position: {position}";
                 }
 
             }
 
         }
-
+        #endregion
 
     }
 }

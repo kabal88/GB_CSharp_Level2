@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,91 +12,87 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GB_Kabalkin_CSharp_Level2.Classes;
 
 namespace GB_Kabalkin_CSharp_Level2
 {
     /// <summary>
     /// Interaction logic for Window2StaffEditor.xaml
     /// </summary>
-    public partial class Window2StaffEditor : Window
+    public partial class Window2StaffEditor : Window,IViewEmployee
     {
-        Employee staffForEdit;
-        List<Department> departments;
-        Department depSelect;
+
+        Presenter p;
+
+        #region IViewEmployee
+
+        public string EmplName
+        {
+            get => NameTextBox.Text;
+            set => NameTextBox.Text = value;
+        }
+
+        public ObservableCollection<Department> Departments
+        {
+            get => DepartamentComboBox.ItemsSource as ObservableCollection<Department>;
+            set => DepartamentComboBox.ItemsSource = value;
+        }
+
+        public Department DepartmentSelected
+        {
+            get
+            {
+                return DepartamentComboBox.SelectedItem as Department;
+            }
+            set
+            {
+                DepartamentComboBox.SelectedItem = value;
+            }
+        }
+
+
+        public ObservableCollection<Position> Position
+        {
+            get => PositionComboBox.ItemsSource as ObservableCollection<Position>;
+            set => PositionComboBox.ItemsSource = value;
+        }
+
+        public Position PositionSelected
+        {
+            get
+            {
+                if (PositionComboBox.SelectedIndex == -1) return 0;
+                else return (Position)PositionComboBox.SelectedIndex;
+            }
+            set
+            {
+                PositionComboBox.SelectedItem = value;
+            }
+        }
+
+        public string Salary
+        {
+            get => SalaryTextBox.Text;
+            set => SalaryTextBox.Text=value;
+        }
+        #endregion
 
         public Window2StaffEditor()
         {
             InitializeComponent();
         }
 
-        public Window2StaffEditor(Employee employee, List<Department> departments) :this()
+        public Window2StaffEditor(Presenter presenter) : this()
         {
-            staffForEdit = employee;
-            this.departments = departments;
-            InitEmployee();
-        }
-
-        void InitEmployee()
-        {
-            if (staffForEdit == null) {
-
-                NameTextBox.Text = "None";
-                PositionComboBox.Text = "None";
-                SalaryTextBox.Text = "None";
-
-                return;
-            }
-            
-
-            NameTextBox.Text = staffForEdit.Name;
-
-            foreach (Position position in Enum.GetValues(typeof(Position)))
+            p = presenter;
+            if (p != null)
             {
-                PositionComboBox.Items.Add(position);
-                if (staffForEdit.Position == position)
-                {
-                    PositionComboBox.SelectedIndex = (int)position;
-                }
+                p.InitViewEmployee(this);
+                p.LoadEmployeeEdition();
+
+                SaveBtn.Click += (s, e) => p.SaveBtnClick();
+                SaveBtn.Click += (s, e) => this.Close();
             }
-            if (departments != null)
-            {
-
-                for (int i = 0; i < departments.Count; i++)
-                {
-                    DepartamentComboBox.Items.Add(departments[i]);
-                    if (staffForEdit.DepartamentName == departments[i].Name)
-                    {
-                        DepartamentComboBox.SelectedIndex = i;
-                        depSelect = departments[i];
-                    }
-                }
-              
-            }
-            SalaryTextBox.Text = staffForEdit.Salary.ToString();
-            
-
-        }
-
-        private void OnClickCancel(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void SaveBtnClick(object sender, RoutedEventArgs e)
-        {
-            if (staffForEdit == null)
-            {
-                this.Close();
-                return;
-            }
-            staffForEdit.Name = NameTextBox.Text;
-            staffForEdit.Position = (Position)PositionComboBox.SelectedItem;
-            Department depTemp = ((Department)DepartamentComboBox.SelectedItem);
-            staffForEdit.DepartamentName = depTemp.Name;
-            depTemp.AddStaff(staffForEdit);
-            depSelect.DeleteStaff(ref staffForEdit);
-            if (double.TryParse(SalaryTextBox.Text, out double result)) staffForEdit.Salary = result;
-            this.Close();
         }
     }
 }

@@ -4,26 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace GB_Kabalkin_CSharp_Level2
 {
-    public class Company
+    public class Company: INotifyPropertyChanged
     {
-        private string name;
-        public string Name { get { return name; } }
-        //List<Employee> staffList;
-        List<Department> departments;
-        //public List<Employee> StaffList { get { return staffList; } }
-        public List<Department> Departments { get { return departments; } }
-        Random random=new Random();
+        #region Variables
+        private string companyName;
+        public string CompanyName { get { return companyName; } }
+
+        ObservableCollection<Department> departments;        
+        public ObservableCollection<Department> Departments { get { return departments; } }
+
+        Random random = new Random();
+        #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
 
         public Company(string name)
         {
 
-            this.name = name;
-            departments = new List<Department>() { new Department("None") };
+            this.companyName = name;
+            departments = new ObservableCollection<Department>() { new Department("None") };
         }
 
+        #region Metods
         public void HiringStaff(int qty, Position position)
         {
 
@@ -39,8 +48,9 @@ namespace GB_Kabalkin_CSharp_Level2
         {
             for (int i = 0; i < qty; i++)
             {
-                departments.Add(new Department($"Department 00{Department.ID}"));
+                departments.Add(new Department($"Department 00{Department.counter}"));
             }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Departments)));
         }
 
         public void MoveStaffToDepartament(ref Employee employee,ref Department toDepartment, ref Department fromDepartment)
@@ -50,7 +60,6 @@ namespace GB_Kabalkin_CSharp_Level2
             RemoveStaffToDepartament(ref employee, ref fromDepartment);
 
         }
-
         public void AddStaffToDepartament(ref Employee employee,ref Department department)
         {
             department.AddStaff(ref employee);
@@ -60,8 +69,6 @@ namespace GB_Kabalkin_CSharp_Level2
             department.DeleteStaff(ref employee);
 
         }
-
-
 
         public override string ToString()
         {
@@ -81,7 +88,7 @@ namespace GB_Kabalkin_CSharp_Level2
             }
             return result;
         }
-
+        #endregion
 
 
     }

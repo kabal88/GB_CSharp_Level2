@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GB_Kabalkin_CSharp_Level2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="593.471" Width="865.042">
+        Title="MainWindow" Height="429.294" Width="941.658">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" ></ColumnDefinition>
@@ -21,14 +21,14 @@
         <TextBlock x:Name="LableText" HorizontalAlignment="Center" Margin="5" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" FontSize="16" TextAlignment="Center"  Grid.Row="0" Grid.ColumnSpan="3" FontWeight="Bold"/>
 
         <TextBlock HorizontalAlignment="Center" Margin="5" TextWrapping="Wrap" Text="Departaments:" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"/>
-        <ListBox SelectionChanged="DepartamentSelection" x:Name="DepartamentsListBox" HorizontalAlignment="Center" Height="250" Margin="10,50,10,10" VerticalAlignment="Top" Width="191" Grid.Row="1" Grid.Column="0"/>
-        <Button x:Name="AddDepBtn" Content="Add" HorizontalAlignment="Center" Margin="48,312,162,0" VerticalAlignment="Top" Width="76" Click="AddDepBtnClick" Grid.Row="1" Grid.Column="0"/>
+        <ListBox  x:Name="DepartamentsListBox" HorizontalAlignment="Center" Height="250" Margin="10,50,10,10" VerticalAlignment="Top" Width="191" Grid.Row="1" Grid.Column="0"/>
+        <Button x:Name="AddDepBtn" Content="Add" HorizontalAlignment="Center" Margin="10,312,10,0" VerticalAlignment="Top" Width="76"  Grid.Row="1" Grid.Column="0"/>
 
         <TextBlock HorizontalAlignment="Center" Margin="5" TextWrapping="Wrap" Text="Staff:" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"/>
-        <ListBox SelectionChanged="StaffSelection" x:Name="StafflistBox" HorizontalAlignment="Center" Height="250" Margin="10,50,10,10" VerticalAlignment="Top" Width="191" Grid.Row="1" Grid.Column="1"/>
-        <Button x:Name="EditBtn" Content="Edit" HorizontalAlignment="Center" Margin="162,312,48,0" VerticalAlignment="Top" Width="76" Click="EditBtnClick" Grid.Row="1" Grid.Column="1"/>
-        <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Center" Margin="48,312,162,0" VerticalAlignment="Top" Width="76" Click="AddBtnClick" Grid.Row="1" Grid.Column="1"/>
-        <Button x:Name="DelBtn" Content="Del" HorizontalAlignment="Center" Margin="48,337,162,0" VerticalAlignment="Top" Width="76" Click="DelBtnClick" Grid.Row="1" Grid.Column="1"/>
+        <ListBox  x:Name="StafflistBox" HorizontalAlignment="Center" Height="250" Margin="10,50,10,10" VerticalAlignment="Top" Width="191" Grid.Row="1" Grid.Column="1"/>
+        <Button x:Name="EditStaffBtn" Content="Edit" HorizontalAlignment="Center" Margin="162,312,48,0" VerticalAlignment="Top" Width="76"  Grid.Row="1" Grid.Column="1"/>
+        <Button x:Name="AddStaffBtn" Content="Add" HorizontalAlignment="Center" Margin="48,312,162,0" VerticalAlignment="Top" Width="76"  Grid.Row="1" Grid.Column="1"/>
+        <Button x:Name="DelStaffBtn" Content="Del" HorizontalAlignment="Center" Margin="48,337,162,0" VerticalAlignment="Top" Width="76"  Grid.Row="1" Grid.Column="1"/>
 
         <TextBlock x:Name="CompanyInfoTextBox" HorizontalAlignment="Stretch" Margin="25" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" TextAlignment="Justify" Background="#FFE2E2E2"/>
 

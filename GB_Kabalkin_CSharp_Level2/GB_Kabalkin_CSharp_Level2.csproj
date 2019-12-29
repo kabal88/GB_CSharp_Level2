@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\IViewCompany.cs" />
+    <Compile Include="Classes\IViewEmployee.cs" />
+    <Compile Include="Classes\Model.cs" />
+    <Compile Include="Classes\Presenter.cs" />
     <Compile Include="Window2StaffEditor.xaml.cs">
       <DependentUpon>Window2StaffEditor.xaml</DependentUpon>
     </Compile>
@@ -66,9 +70,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Company.cs" />
-    <Compile Include="Department.cs" />
-    <Compile Include="Employee.cs" />
+    <Compile Include="Classes\Company.cs" />
+    <Compile Include="Classes\Department.cs" />
+    <Compile Include="Classes\Employee.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -79,7 +83,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Position.cs" />
+    <Compile Include="Classes\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
